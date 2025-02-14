@@ -1,0 +1,47 @@
+/* 📂 Upload Container */
+.upload-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #42e695, #3bb2b8);
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 🔽 Task Selection Dropdown */
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+}
+
+/* 📝 Input Fields */
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+}
+
+/* 🔼 Upload Buttons */
+button {
+  background: #ffcc00;
+  color: black;
+  font-weight: bold;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ffb300;
+}
