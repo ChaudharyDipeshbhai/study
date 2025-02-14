@@ -1,4 +1,4 @@
-/* 📂 Upload Container */
+/* 📂 Upload Container
 .upload-container {
   max-width: 600px;
   margin: auto;
@@ -44,4 +44,106 @@ button {
 
 button:hover {
   background: #ffb300;
+} */
+
+
+/* 📂 Upload Materials Page Styling */
+.upload-container {
+  /* max-width: 500px;
+  margin: 50px auto;
+  /* background-image: url("/public/quote3.jpg"); */
+  /* padding: 20px;
+  background: #f9bed5e9; /* Light Pink Background */
+  /* border-radius: 10px;
+  box-shadow: 5px 5px 8px rgb(0, 0, 0);
+  text-align: center;
+  font-family: "ALGERIAN", ALGERIAN; */ 
+  max-width: 500px;
+  margin: 50px 50px 50px; /* Align to the left */
+  padding: 30px;
+  background: #f9bed5e9;
+  border-radius: 10px;
+  box-shadow: 5px 5px 8px rgb(0, 0, 0);
+  text-align: center; /* Align text to left */
+  font-family: "ALGERIAN", ALGERIAN;
+
+}
+
+/* 🏷 Page Heading */
+.upload-container h2 {
+  color: #0e599a; /* Blue */
+  margin-bottom: 20px;
+}
+
+/* 🔽 Task Selection Dropdown */
+.task-selection {
+  margin-bottom: 70px !important; /* Force extra spacing */
+  text-align: center;
+}
+
+.task-selection label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.task-selection select {
+  width: 100%;
+  padding: 0px;
+  border: 2px solid #04345f;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* 📂 Upload Section */
+.upload-section {
+  padding: 15px;
+  background: #ffffff;
+  border: 2px solid #ff8fab; /* Light Pink */
+  border-radius: 8px;
+  text-align: left;
+  margin-top: center !important; /* Ensuring space between sections */
+  width: 100%; /* Ensure it takes full width */
+}
+
+.upload-section h3 {
+  color: #1e88e5;
+  margin-bottom: 10px;
+}
+
+/* 📂 Upload Boxes */
+.upload-box {
+  margin-top: 15px;
+}
+
+.upload-box input {
+  width: calc(100% - 10px);
+  padding: 10px;
+  border: 2px solid #ff8fab;
+  border-radius: 5px;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* 🚀 Buttons */
+.upload-box button {
+  width: 100%;
+  padding: 10px;
+  background: #1e88e5; /* Blue */
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.upload-box button:hover {
+  background: #1565c0; /* Darker Blue */
 }

@@ -1,155 +1,154 @@
-/* .calendar-container {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    max-width: 500px;
-    margin: auto;
-  }
-  
-  .calendar-day {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ddd;
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s;
-  }
-  
-  .calendar-day:hover {
-    background-color: #e3f2fd;
-  }
-  
-  .task-details {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-   */
-
-/* 🌟 General Container Styling */
-.calendar-container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  background: linear-gradient(135deg, #f6d365, #fda085);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  text-align: center;
+/* 🌟 Full Page Background - Soft Pink & Blue Theme */
+body {
+  background: linear-gradient(135deg, #fdeff1, #e3f2fd); /* Light pink to blue */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
-/* 🌈 Title */
+/* 🌟 Optional: Subtle Glow Effect */
+body::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(255, 175, 189, 0.3) 20%, rgba(100, 181, 246, 0.3) 80%);
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  opacity: 0.5;
+  filter: blur(80px);
+}
+
+/* 🌟 General Calendar Container */
+.calendar-container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(15px);
+}
+
+/* 🌈 Calendar Title */
 .calendar-container h2 {
-  color: #fff;
-  font-size: 24px;
+  color: #ff4081;
+  font-size: 28px;
   font-weight: bold;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 /* 📅 Calendar Grid */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  margin-top: 15px;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
 }
 
-/* 📆 Calendar Day Styling */
+/* 📆 Individual Calendar Day */
 .calendar-day {
-  width: 40px;
-  height: 40px;
+  width: 75px;
+  height: 75px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
-  background: #fff;
-  border-radius: 8px;
+  background: white;
+  border-radius: 12px;
   cursor: pointer;
-  transition: transform 0.2s, background 0.3s;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.15);
 }
 
-/* 🟢 Completed Tasks */
-.calendar-day[style*="green"] {
-  background: linear-gradient(135deg, #48c6ef, #6f86d6);
-  color: white;
-}
-
-/* 🔴 Half-Done Tasks */
-.calendar-day[style*="red"] {
-  background: linear-gradient(135deg, #ff758c, #ff7eb3);
-  color: white;
-}
-
-/* 🟡 Pending Tasks */
-.calendar-day[style*="yellow"] {
-  background: linear-gradient(135deg, #f9d423, #ff4e50);
-  color: white;
-}
-
-/* 🎯 Hover Effect */
+/* 🎨 Hover Effect - Soft Glow */
 .calendar-day:hover {
   transform: scale(1.1);
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 4px 15px rgba(255, 64, 129, 0.7);
+  background: linear-gradient(135deg, #ff80ab, #80d8ff);
+  color: white;
 }
 
-/* 📝 Selected Day Task List */
+/* 🟢 Completed Tasks - Light Green */
+.calendar-day[style*="green"] {
+  background: linear-gradient(135deg, #a5d6a7, #81c784);
+  color: white;
+  box-shadow: 2px 2px 6px rgba(76, 175, 80, 0.6);
+}
+
+/* 🔴 Half-Done Tasks - Light Red */
+.calendar-day[style*="red"] {
+  background: linear-gradient(135deg, #ef9a9a, #e57373);
+  color: white;
+  box-shadow: 2px 2px 6px rgba(255, 87, 87, 0.6);
+}
+
+/* 🟡 Pending Tasks - Light Yellow */
+.calendar-day[style*="yellow"] {
+  background: linear-gradient(135deg, #ffe082, #ffca28);
+  color: white;
+  box-shadow: 2px 2px 6px rgba(255, 193, 7, 0.6);
+}
+
+/* 📝 Task Details Section */
 .task-details {
-  margin-top: 15px;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
   text-align: left;
+  backdrop-filter: blur(8px);
 }
 
 .task-details h3 {
-  font-size: 18px;
+  font-size: 22px;
   color: #333;
   font-weight: bold;
 }
 
+/* 📝 Task List Styling */
 .task-details ul {
   list-style-type: none;
   padding: 0;
 }
 
 .task-details li {
-  padding: 8px;
-  margin: 5px 0;
-  border-radius: 5px;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* 🟢 Completed Task List */
 .task-details li[style*="green"] {
-  background: #48c6ef;
+  background: #81c784;
   color: white;
 }
 
 /* 🔴 Half-Done Task List */
 .task-details li[style*="red"] {
-  background: #ff758c;
+  background: #e57373;
   color: white;
 }
 
 /* 🟡 Pending Task List */
 .task-details li[style*="yellow"] {
-  background: #f9d423;
+  background: #ffca28;
   color: black;
 }

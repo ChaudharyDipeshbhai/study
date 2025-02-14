@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db, auth } from "../firebase";
 import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, where } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { checkAuth } from "../helpers";
 import "../assets/css/styles.css"; // Ensure correct path
 // import Timetable from "../components/Timetable"; // Import Timetable Component. time table ma kai thayu to aa ek vakhat check karvu padse
 
@@ -31,7 +32,8 @@ const TaskList = () => {
   
 
   const handleAddTask = async () => {
-    if (newTaskName.trim() == "") return;
+    if (!checkAuth()) return;
+    if (newTaskName.trim() === "") return;
     try {
       const user = auth.currentUser;
       if (!user) {
@@ -41,6 +43,7 @@ const TaskList = () => {
       
       const docRef = await addDoc(collection(db, "tasks"), {
           name: newTaskName,
+          userId: auth.currentUser.uid,
           subject: "",
           topics: [],
           startDate: "",
@@ -54,7 +57,6 @@ const TaskList = () => {
           priority: "Medium",
           tags: [],
           reminder: false,
-          userId: user.uid,
         },
       );
       setTasks([...tasks, { id: docRef.id, name: newTaskName, completed: false, topics: [] }]);
@@ -106,7 +108,7 @@ const TaskList = () => {
   const handleDeleteTask = async (taskId) => {
     try {
       await deleteDoc(doc(db, "tasks", taskId));
-      setTasks(tasks.filter((task) => task.id !== taskId));
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
     } catch (error) {
       console.error("Error deleting task:", error);
     }
@@ -251,7 +253,7 @@ const TaskList = () => {
                 ) : (
                   <>
                     <p><strong>Subject:</strong> {task.subject}</p>
-                    <p><strong>Topics:</strong> {task.topics ? task.topics.join(", ") : "No topics"}</p>
+                    <p><strong>Topics:</strong> {(task.topics || []).join(", ")}</p>
                     <p><strong>Start Date:</strong> {task.startDate}</p>
                     <p><strong>End Date:</strong> {task.endDate}</p>
                     <p><strong>Duration:</strong> {task.duration} hours</p>
@@ -264,7 +266,7 @@ const TaskList = () => {
                     {!task.completed && (
                       <>
                         <button onClick={() => handleEditTask(index)}>Edit Task</button>
-                        <button onClick={() => handleDeleteTask(index)}>Delete</button>
+                        <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
                       </>
                     )}
 

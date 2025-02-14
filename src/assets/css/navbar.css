@@ -1,0 +1,75 @@
+.navbar {
+    position: fixed;  /* Keeps navbar fixed at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #222;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000; /* Ensures navbar stays on top */
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-links li {
+    display: inline-block;
+  }
+  
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .nav-links a:hover {
+    color: #007bff;
+  }
+  
+  /* Prevent signup form from overlapping with navbar */
+  body {
+    padding-top: 70px;  /* Creates space so content isn't hidden under navbar */
+  }.navbar {
+    position: fixed;  /* Keeps navbar fixed at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #222;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000; /* Ensures navbar stays on top */
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-links li {
+    display: inline-block;
+  }
+  
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .nav-links a:hover {
+    color: #007bff;
+  }
+  
+  /* Prevent signup form from overlapping with navbar */
+  body {
+    padding-top: 70px;  /* Creates space so content isn't hidden under navbar */
+  }

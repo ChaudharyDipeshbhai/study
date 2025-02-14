@@ -1,148 +1,10 @@
-// import React, { useState } from "react";
-
-// const UploadMaterials = ({ tasks = [] }) => {  // Ensure tasks is always an array
-//   const [selectedTask, setSelectedTask] = useState(null);
-//   const [uploads, setUploads] = useState({});
-
-//   // Function to handle file selection
-//   const handleFileUpload = (topic, files) => {
-//     setUploads((prevUploads) => ({
-//       ...prevUploads,
-//       [topic]: [...(prevUploads[topic] || []), ...files],
-//     }));
-//   };
-
-//   // Drag and Drop Handlers
-//   const handleDragOver = (e) => e.preventDefault();
-//   const handleDrop = (e, topic) => {
-//     e.preventDefault();
-//     const files = Array.from(e.dataTransfer.files);
-//     handleFileUpload(topic, files);
-//   };
-
-//   return (
-//     <div className="upload-container">
-//       <h2>Upload Study Materials</h2>
-//       <div className="task-list">
-//         {tasks?.length > 0 ? (  // Check if tasks exist
-//           tasks.map((task) => (
-//             <button key={task.name} onClick={() => setSelectedTask(task)}>
-//               {task.name}
-//             </button>
-//           ))
-//         ) : (
-//           <p>No tasks available</p>  // Show message if no tasks
-//         )}
-//       </div>
-
-//       {selectedTask && (
-//         <div className="upload-section">
-//           <h3>Upload for: {selectedTask.name}</h3>
-//           {selectedTask.topics?.length > 0 ? (  // Check if topics exist
-//             selectedTask.topics.map((topic) => (
-//               <div key={topic} className="topic-upload">
-//                 <h4>{topic}</h4>
-//                 <div
-//                   className="drop-zone"
-//                   onDragOver={handleDragOver}
-//                   onDrop={(e) => handleDrop(e, topic)}
-//                 >
-//                   Drag & Drop files here or <input type="file" multiple onChange={(e) => handleFileUpload(topic, e.target.files)} />
-//                 </div>
-//                 <ul>
-//                   {(uploads[topic] || []).map((file, index) => (
-//                     <li key={index}>{file.name}</li>
-//                   ))}
-//                 </ul>
-//               </div>
-//             ))
-//           ) : (
-//             <p>No topics available</p>  // Show message if no topics
-//           )}
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default UploadMaterials;
-
-
-// import React, { useState } from "react";
-
-// const UploadMaterials = ({ tasks = [] }) => {  // Ensure tasks is always an array
-//   const [selectedTask, setSelectedTask] = useState(null);
-//   const [uploads, setUploads] = useState({});
-
-//   // Function to handle file selection
-//   const handleFileUpload = (topic, files) => {
-//     setUploads((prevUploads) => ({
-//       ...prevUploads,
-//       [topic]: [...(prevUploads[topic] || []), ...files],
-//     }));
-//   };
-
-//   // Drag and Drop Handlers
-//   const handleDragOver = (e) => e.preventDefault();
-//   const handleDrop = (e, topic) => {
-//     e.preventDefault();
-//     const files = Array.from(e.dataTransfer.files);
-//     handleFileUpload(topic, files);
-//   };
-
-//   return (
-//     <div className="upload-container">
-//       <h2>Upload Study Materials</h2>
-//       <div className="task-list">
-//         {tasks?.length > 0 ? (  // Check if tasks exist
-//           tasks.map((task) => (
-//             <button key={task.name} onClick={() => setSelectedTask(task)}>
-//               {task.name}
-//             </button>
-//           ))
-//         ) : (
-//           <p>No tasks available</p>  // Show message if no tasks
-//         )}
-//       </div>
-
-//       {selectedTask && (
-//         <div className="upload-section">
-//           <h3>Upload for: {selectedTask.name}</h3>
-//           {selectedTask.topics?.length > 0 ? (  // Check if topics exist
-//             selectedTask.topics.map((topic) => (
-//               <div key={topic} className="topic-upload">
-//                 <h4>{topic}</h4>
-//                 <div
-//                   className="drop-zone"
-//                   onDragOver={handleDragOver}
-//                   onDrop={(e) => handleDrop(e, topic)}
-//                 >
-//                   Drag & Drop files here or <input type="file" multiple onChange={(e) => handleFileUpload(topic, e.target.files)} />
-//                 </div>
-//                 <ul>
-//                   {(uploads[topic] || []).map((file, index) => (
-//                     <li key={index}>{file.name}</li>
-//                   ))}
-//                 </ul>
-//               </div>
-//             ))
-//           ) : (
-//             <p>No topics available</p>  // Show message if no topics
-//           )}
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default UploadMaterials;
-
-
-
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { db } from "../firebase"; // Firestore import
+import { db,auth } from "../firebase"; // Firestore import
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import "../assets/css/uploadMaterial.css"; // Ensure proper styling
+import { checkAuth } from "../helpers";
+import { query, where } from "firebase/firestore";
 
 const UploadMaterial = () => {
   const [tasks, setTasks] = useState([]);
@@ -151,18 +13,35 @@ const UploadMaterial = () => {
   const [youtubeLink, setYoutubeLink] = useState("");
 
   // 📌 Fetch tasks from Firestore
-  useEffect(() => {
-    const fetchTasks = async () => {
-      const querySnapshot = await getDocs(collection(db, "tasks"));
+  const navigate = useNavigate();
+
+useEffect(() => {
+  if (!checkAuth()) {
+    navigate("/login");
+    return;
+  }
+
+  const fetchTasks = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const q = query(collection(db, "tasks"), where("userId", "==", user.uid)); // ✅ Fetch tasks only for the logged-in user
+      const querySnapshot = await getDocs(q);
       const fetchedTasks = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-      setTasks(fetchedTasks);
-    };
 
-    fetchTasks();
-  }, []);
+      setTasks(fetchedTasks);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
+  fetchTasks(); // ✅ Call the function inside useEffect
+}, [navigate]); // ✅ Add dependencies (so it re-runs if `navigate` changes)
+
 
   // 📌 Upload File Link to Firestore
   const uploadFileLink = async () => {

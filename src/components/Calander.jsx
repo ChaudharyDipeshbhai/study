@@ -1,21 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../firebase"; // Firestore instance
-import { collection, getDocs } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { db, auth } from "../firebase"; // Firestore instance
+import { collection, getDocs ,query, where} from "firebase/firestore";
 import "../assets/css/calendar.css"; // Ensure correct CSS path
 
 const Calander = () => {
   const [tasks, setTasks] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null); // Stores selected date for viewing tasks
-
+  const navigate = useNavigate();
+  
   const today = new Date();
   const currentMonth = today.getMonth();
   const currentYear = today.getFullYear();
 
   // Fetch tasks from Firestore
   useEffect(() => {
+    const user = auth.currentUser; // Get current user
+  
+    if (!user) {
+      navigate("/login"); // Redirect if not logged in
+      return;
+    }
+  
     const fetchTasks = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "tasks"));
+        const querySnapshot = await getDocs(
+          query(collection(db, "tasks"), where("userId", "==", user.uid)) // Fetch tasks only for logged-in user
+        );
         const tasksData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
@@ -25,9 +36,10 @@ const Calander = () => {
         console.error("Error fetching tasks:", error);
       }
     };
-
+  
     fetchTasks();
-  }, []);
+  }, [navigate]);
+  
 
   // Generate days of the current month
   const getDaysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
