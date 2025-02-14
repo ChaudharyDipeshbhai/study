@@ -2,12 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { checkAuth } from "../helpers";
 
 const StartTask = ({ tasks = [], updateTaskStatus }) => {
   const [activeTask, setActiveTask] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    if (!checkAuth()) {
+      navigate('/login');
+    }
+  },[navigate]);
 
   // Function to start the task timer and update Firestore
   const startTask = async (task) => {

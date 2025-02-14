@@ -3,6 +3,7 @@ import { auth, db } from "../firebase";
 import { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import "../assets/css/navbar.css";
 
 function Navbar() {
   const [user, setUser] = useState(null);

@@ -78,29 +78,43 @@
 // export default Progress;
 
 
-import React, { useState, useEffect } from "react";
-import { db } from "../firebase"; // Firestore import
-import { collection, getDocs } from "firebase/firestore";
-import "../assets/css/progress.css"; // Ensure proper styling
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { db, auth } from "../firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import "../assets/css/progress.css"; // ✅ Ensure correct CSS path
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import { checkAuth } from "../helpers";
 
 const Progress = () => {
   const [tasks, setTasks] = useState([]);
+  const navigate = useNavigate();
 
   // 📌 Fetch tasks from Firestore
   useEffect(() => {
+    const user = auth.currentUser;
+    if (!checkAuth) {
+      navigate("/login");
+      return;
+    }
+
     const fetchTasks = async () => {
-      const querySnapshot = await getDocs(collection(db, "tasks"));
-      const fetchedTasks = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      // Sort tasks by newest first (based on startDate)
-      fetchedTasks.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
-      setTasks(fetchedTasks);
+      try {
+        const querySnapshot = await getDocs(
+          query(collection(db, "tasks"), where("userId", "==", user.uid))
+        );
+        const tasksData = querySnapshot.docs
+          .map((doc) => ({ id: doc.id, ...doc.data() }))
+          .sort((a, b) => new Date(b.startDate) - new Date(a.startDate)); // ✅ Sort newest first
+        setTasks(tasksData);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
     };
 
     fetchTasks();
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="progress-container">
